@@ -89,7 +89,8 @@
 				BD4A6C711E6E56AE00BFC6A5 /* CZTagButtons.h */,
 				BD4A6C721E6E56AE00BFC6A5 /* CZTagButtons.m */,
 			);
-			path = CZTagButtons;
+			name = CZTagButtons;
+			path = ../../CZTagButtons;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
