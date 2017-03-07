@@ -10,21 +10,20 @@ Pod::Spec.new do |s|
 
   
   s.name         = "CZTagButtons"
-  s.version      = "0.0.1"
+  s.version      = "1.0.1"
   s.summary      = "One line of code to realize irregular button label sorting."
   s.ios.deployment_target = '7.0'
 
 
   s.homepage     = "https://github.com/Czing/CZTagButtons"
 
-  s.license              = { :type => "MIT", :file => "LICENSE" }
-  s.author             = { “Czing” => “1009351323@qq.com” }
-  
+  s.license            = { :type => "MIT", :file => "LICENSE" }
+    s.author       = { "cyz123" => "1009351323@qq.com" }
   s.source       = { :git => "https://github.com/Czing/CZTagButtons.git", :tag => "#{s.version}" }
 
 
-  s.source_files  = "Classes", "Classes/**/*.{h,m}"
-  s.exclude_files = "Classes/Exclude"
+  s.source_files  = "CZTagButtons/*.{h,m}"
+ 
 
     s.requires_arc = true
 
