@@ -20,6 +20,7 @@ end
 #import "CZTagButtons.h"
 ```
 //block回调 点击标签信息 *frame填写的时高度失效 内部已经计算好 可以获取buttons的高度
+
 //typographyButtonTitles 为所需标签个数
 ```
  CZTagButtons *button  =[[CZTagButtons alloc]initWithCompletionHandlerBlock:^(CZTypographyButton *button, NSInteger index) {
