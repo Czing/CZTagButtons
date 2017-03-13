@@ -5,7 +5,7 @@
 -----
 
 #Podfile</br>
-To integrate YJSettingTableView into your Xcode project using CocoaPods, specify it in your `Podfile`:
+To integrate CZTagButtons into your Xcode project using CocoaPods, specify it in your `Podfile`:
 ```
 source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '7.0'
@@ -15,7 +15,12 @@ pod'CZTagButtons'    ,'~>1.0.2'
 end
 ```
 ### 使用说明
+//导入头文件
+```
+#import "CZTagButtons.h"
+```
 //block回调 点击标签信息 *frame填写的时高度失效 内部已经计算好 可以获取buttons的高度
+//typographyButtonTitles 为所需标签个数
 ```
  CZTagButtons *button  =[[CZTagButtons alloc]initWithCompletionHandlerBlock:^(CZTypographyButton *button, NSInteger index) {
         NSLog(@"%@----%zd ",button.titleLabel.text,index);
