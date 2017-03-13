@@ -12,6 +12,8 @@
 #define M_W [UIScreen mainScreen].bounds.size.width
 @interface ViewController ()
 
+@property CZTagButtons *buttons;
+
 @end
 
 @implementation ViewController
@@ -29,8 +31,14 @@
     
     //    button.cz_buttonTitleColor = [UIColor yellowColor];
     [self.view addSubview:button];
+    self.buttons = button;
+    
+    
 
 }
+-(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
 
+   
+}
 
 @end
