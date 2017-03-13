@@ -29,6 +29,7 @@
     
     //    button.cz_buttonTitleColor = [UIColor yellowColor];
     [self.view addSubview:button];
+    NSLog(@"%f",button.frame.size.height);
 
 }
 
