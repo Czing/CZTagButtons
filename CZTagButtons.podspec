@@ -10,7 +10,7 @@ Pod::Spec.new do |s|
 
   
   s.name         = "CZTagButtons"
-  s.version      = "1.0.0"
+  s.version      = "1.0.1"
   s.summary      = "One line of code to realize irregular button label sorting."
   s.ios.deployment_target = '7.0'
 

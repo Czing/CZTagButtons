@@ -186,6 +186,7 @@ const char completionHandlerKey;
         }
     }
     [self layoutIfNeeded];
+    
 }
 -(void)btnClick:(CZTypographyButton *)button{
     void(^completHandleBlock)(CZTypographyButton *btn,NSInteger index) = objc_getAssociatedObject(self, &completionHandlerKey);
