@@ -11,9 +11,9 @@
 
 #define M_W [UIScreen mainScreen].bounds.size.width
 
-CGFloat const INTERSTICE = 5;
-CGFloat const TagMargin  = 5;
-CGFloat const TagH = 25;
+CGFloat const INTERSTICE = 20;
+CGFloat const TagMargin  = 15;
+CGFloat const TagH = 30;
 
 const char completionHandlerKey;
 
@@ -67,6 +67,10 @@ const char completionHandlerKey;
 
 @end
 
+@implementation CZTypographyButtonConfig
+
+@end
+
 @interface CZTypographyButton ()
 
 @end
@@ -76,12 +80,10 @@ const char completionHandlerKey;
 - (instancetype)initWithFrame:(CGRect)frame
 {
     if (self = [super initWithFrame:frame]) {
-        self.backgroundColor = [UIColor  whiteColor];
-        self.titleLabel.font = [UIFont systemFontOfSize:13];
-        [self setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-        self.layer.borderColor = [UIColor lightGrayColor].CGColor;
-        self.layer.borderWidth = 0.5;
-        self.layer.cornerRadius = TagH/2.0;
+//        self.backgroundColor = [UIColor  whiteColor];
+        self.titleLabel.font = [UIFont systemFontOfSize:14];
+        [self setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+
     }
     return self;
 }
@@ -90,7 +92,7 @@ const char completionHandlerKey;
 {
     [super setTitle:title forState:state];
     [self sizeToFit];
-    self.width += 2 * TagMargin;
+//    self.width += 2 * TagMargin;
     self.height = TagH;
 }
 
@@ -114,7 +116,10 @@ const char completionHandlerKey;
 }
 @end
 
-@interface CZTagButtons ()
+@interface CZTagButtons (){
+    CZTypographyButtonConfig *_config;
+    CZTypographyButton *_currentButton;
+}
 @property (nonatomic, strong) NSMutableArray *tagButtons;
 @property(nonatomic,strong)UIButton *currentBtn;
 @property(nonatomic,strong)NSMutableArray *buttons;
@@ -137,11 +142,14 @@ const char completionHandlerKey;
     return _buttons;
 }
 - (instancetype)initWithCompletionHandlerBlock:(void(^)(CZTypographyButton *button , NSInteger index ))completionHandler
-                        typographyButtonTitles:(NSArray *)buttonTitles withSuperViewF:(CGRect)viewF{
+                        typographyButtonTitles:(NSArray *)buttonTitles
+                                        config:(CZTypographyButtonConfig *)config
+                                withSuperViewF:(CGRect)viewF{
     self = [super init];
     if (self) {
         _viewRect = viewF;
         self.frame = viewF;
+        _config = config;
         [self.tagButtons addObjectsFromArray:buttonTitles];
         [self loadSubViews];
         objc_setAssociatedObject(self, &completionHandlerKey, completionHandler, OBJC_ASSOCIATION_COPY);
@@ -156,11 +164,53 @@ const char completionHandlerKey;
 }
 -(void)loadSubViews{
     for (NSInteger i =0; i < self.tagButtons.count; i++) {
-        CZTypographyButton *button  =[CZTypographyButton buttonWithType:UIButtonTypeSystem];
+        CZTypographyButton *button  =[CZTypographyButton buttonWithType:UIButtonTypeCustom];
         [self.buttons addObject:button];
         button.tag = i;
+        if (_config.backGroundImage) {
+            [button setBackgroundImage:_config.backGroundImage forState:UIControlStateNormal];
+        }
+        if (_config.backGroundSelectImage) {
+            [button setBackgroundImage:_config.backGroundSelectImage forState:UIControlStateSelected];
+        }
+        if (_config.layerCornerRadius) {
+            button.layer.masksToBounds = YES;
+            button.layer.cornerRadius = _config.layerCornerRadius;
+        }
+        if (_config.borderWidth) {
+            button.layer.borderWidth = _config.borderWidth;
+        }
+        if (_config.borderColor) {
+            button.layer.borderColor = _config.borderColor.CGColor;
+        }
+        if (_config.selectIndex == i && !_config.defaultNoSelect) {
+            _currentButton = button;
+            button.selected = YES;
+        }
+        if (_config.textColor) {
+            [button setTitleColor:_config.textColor forState:UIControlStateNormal];
+        }
+        if (_config.textSelectColor) {
+            [button setTitleColor:_config.textSelectColor forState:UIControlStateSelected];
+        }
+        if (_config.font) {
+            [button.titleLabel setFont:[UIFont systemFontOfSize:_config.font]];
+        }
+        
+//        button.tag = i + 1000;
         [button setTitle:self.tagButtons[i] forState:UIControlStateNormal];
+        if (_config.tagH) {
+            button.height = _config.tagH;
+        }
+        if (_config.tagMargin) {
+            button.width += 2 * _config.tagMargin;
+        }else{
+            button.width += 2 * TagMargin;
+        }
         [button addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
+        if (_config.backGroundColor) {
+            [button setBackgroundColor:_config.backGroundColor];
+        }
         [self addSubview:button];
     }
     [self  refreshBtnF];
@@ -188,6 +238,17 @@ const char completionHandlerKey;
     [self layoutIfNeeded];
 }
 -(void)btnClick:(CZTypographyButton *)button{
+    if (_currentButton) {
+        _currentButton.selected = NO;
+        if (_config.backGroundColor) {
+            [_currentButton setBackgroundColor:_config.backGroundColor];
+        }
+    }
+    button.selected = YES;
+    _currentButton = button;
+    if (_config.backGroundSelectColor) {
+        [_currentButton setBackgroundColor:_config.backGroundSelectColor];
+    }
     void(^completHandleBlock)(CZTypographyButton *btn,NSInteger index) = objc_getAssociatedObject(self, &completionHandlerKey);
     !completHandleBlock?:completHandleBlock(button,button.tag);
 }
@@ -209,5 +270,4 @@ const char completionHandlerKey;
         btn.backgroundColor = cz_buttonBackgroundColor;
     }
 }
-
 @end
